@@ -1,0 +1,8 @@
+<div class="home-container">
+    <div class="left-side">
+        <app-search-redes (pdvSelecionadoChange)="pdvSelecionado = $event"></app-search-redes>
+    </div>
+    <div class="right-side">
+        <app-viewer [pdvNome]="pdvSelecionado"></app-viewer>
+    </div>
+</div>

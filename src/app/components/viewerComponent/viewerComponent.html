@@ -1,0 +1,36 @@
+<div class="viewer-container">
+    <div>
+        <app-toolbar [currentPath]="currentPath" (back)="handleBack()" (createFolder)="onCreateFolder()"
+            (delete)="onDeleteSelected()">
+        </app-toolbar>
+    </div>
+    <div class="pastas-container">
+        <!-- Modal Criar Pasta -->
+        <div class="modal-backdrop" *ngIf="creatingFolder">
+            <div class="modal">
+                <h3>Criar nova pasta</h3>
+                <input type="text" [(ngModel)]="newFolderName" placeholder="Nome da nova pasta" />
+                <div class="modal-actions">
+                    <button (click)="confirmCreateFolder()">Criar</button>
+                    <button (click)="cancelCreateFolder()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop" *ngIf="confirmingDelete">
+            <div class="modal">
+                <h3>Confirmar exclusão</h3>
+                <p>Deseja realmente deletar "{{ selectedFile?.name }}"?</p>
+                <div class="modal-actions">
+                    <button (click)="confirmDelete()">Sim</button>
+                    <button (click)="cancelDelete()">Não</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pasta-card" *ngFor="let file of files" [title]="file.name" (click)="onSelect(file)"
+            (dblclick)="onOpen(file)" [class.selected]="selectedFile === file">
+            <img [src]="getFileIcon(file)" alt="File" class="file-icon" />
+            <span class="file">{{ file.name }}</span>
+        </div>
+    </div>
+</div>

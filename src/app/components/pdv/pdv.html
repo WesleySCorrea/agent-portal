@@ -1,0 +1,15 @@
+<div class="pdv-container">
+    <form>
+        <h2>Cadastrar PDV</h2>
+        <div class="inputs">
+            <input class="input-id" type="number" placeholder="ID" [value]="idPdv" readonly />
+            <input class="input-nome" type="text" placeholder="Apelido PDV" [(ngModel)]="apelidoPdv" name="apelidoPdv"
+                required />
+            <input class="input-cnpj" type="text" placeholder="Endereço PDV" [(ngModel)]="enderecoPdv"
+                name="enderecoPdv" required />
+        </div>
+        <div>
+            <button type="submit">Cadastrar</button>
+        </div>
+    </form>
+</div>

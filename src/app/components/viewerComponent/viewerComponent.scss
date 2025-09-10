@@ -1,0 +1,54 @@
+.viewer-container {
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  margin: 10px;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--color-background);
+  border: 3px solid var(--color-primary);
+  border-radius: 15px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+.pastas-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pasta-card {
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-background);
+  border-radius: 6px;
+  padding: 2px;
+  min-width: 100px;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+    &.selected {
+    border: 1px solid var(--color-primary);// #0078d7;
+    background: #e6f0ff;
+  }
+
+  .file-icon {
+    width: 40px;   // tamanho do ícone
+    height: 40px;
+    margin-bottom: 8px;
+  }
+
+  .file {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+}

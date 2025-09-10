@@ -1,0 +1,51 @@
+.pdv-container {
+    max-width: 900px;
+    width: 750px;
+    background-color: var(--color-background);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    border: 3px solid var(--color-primary);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px
+}
+
+.inputs {
+    display: flex;
+    gap: 10px; // espaço entre os inputs
+    margin-bottom: 15px;
+    height: 32px;
+    padding: 0 10px;
+
+  input {
+    padding: 5px;
+    height: 24px;
+    border: 1px solid #DCDCDC;
+    border-radius: 4px;
+  }
+
+  .input-id {
+    width: 50px;
+  }
+
+  .input-nome {
+    width: 400px;
+  }
+
+  .input-cnpj {
+    width: 170px;
+  }
+}
+
+button {
+    height: 32px; // mesmo tamanho do input
+    width: 100px;
+    padding: 0 10px;
+}

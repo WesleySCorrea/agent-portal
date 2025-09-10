@@ -1,0 +1,12 @@
+<div class="cadastro-home">
+    <div class="selection">
+        <button (click)="abrirCadastro('rede')">Cadastrar Rede</button>
+        <button (click)="abrirCadastro('mercado')">Cadastrar Mercado</button>
+        <button (click)="abrirCadastro('pdv')">Cadastrar PDV</button>
+    </div>
+    <ng-container [ngSwitch]="tipoCadastro">
+        <app-rede *ngSwitchCase="'rede'"></app-rede>
+        <app-mercado *ngSwitchCase="'mercado'"></app-mercado>
+        <app-pdv *ngSwitchCase="'pdv'"></app-pdv>
+    </ng-container>
+</div>

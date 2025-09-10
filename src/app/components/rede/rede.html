@@ -1,0 +1,15 @@
+<div class="rede-container">
+    <form>
+        <h2>Cadastrar Rede</h2>
+        <div class="inputs">
+            <input class="input-id" type="number" placeholder="ID" [value]="idRede" readonly />
+            <input class="input-nome" type="text" placeholder="Nome da Rede" [(ngModel)]="nomeRede" name="nomeRede"
+                required />
+            <input class="input-cnpj" type="text" placeholder="CNPJ da Rede" [(ngModel)]="cnpjRede" name="cnpjRede"
+                required />
+        </div>
+        <div>
+            <button type="submit">Cadastrar</button>
+        </div>
+    </form>
+</div>

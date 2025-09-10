@@ -1,0 +1,41 @@
+.toolbar-buttons {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 30px;
+}
+
+.toolbar-buttons button {
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Hover */
+.toolbar-buttons button:hover {
+  background-color: #e5e7eb;
+}
+
+.toolbar-buttons button svg {
+  width: 70%;
+  height: 70%;
+  stroke: #000;
+}
+
+.toolbar-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input {
+    flex: 1;
+    height: 32px;
+    padding: 0 10px;
+}

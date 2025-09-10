@@ -1,0 +1,33 @@
+<div class="search-container">
+    <!-- Busca -->
+    <div class="search">
+        <input type="text" placeholder="Qual a rede?" [(ngModel)]="buscaRede" />
+        <button (click)="buscarRede()">Buscar</button>
+    </div>
+
+    <!-- Espaço -->
+    <div style="height: 20px;"></div>
+
+    <!-- Lista de redes -->
+    <div class="lista-redes">
+        <div *ngFor="let rede of redes" class="rede-item">
+            <div (click)="selecionarRede(rede)">
+                {{ rede.nome }}
+            </div>
+
+            <div *ngIf="redeSelecionada === rede" class="mercados">
+                <div *ngFor="let mercado of rede.mercados" class="mercado-item">
+                    <div class="mercado-nome" (click)="selecionarMercado(mercado)">
+                        {{ mercado.nome }}
+                    </div>
+
+                    <div *ngIf="mercadoSelecionado === mercado" class="pdvs">
+                        <div *ngFor="let pdv of mercado.pdvs" (click)="selecionarPdv(pdv)" style="cursor: pointer;">
+                            {{ pdv.nome }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
