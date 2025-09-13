@@ -109,7 +109,7 @@ export class viewerComponent implements OnChanges {
   }
 
   cancelDelete() {
-    this.confirmingDelete = false; // fecha o modal
+    this.confirmingDelete = false;
   }
 
   handleBack() {
@@ -124,7 +124,7 @@ export class viewerComponent implements OnChanges {
       // normaliza (remove barras finais) e tira a última parte
       const normalized = this.currentPath.replace(/\\+$/, '');
       const parts = normalized.split('\\');
-      parts.pop(); // remove a última pasta
+      parts.pop();
 
       const parent = parts.join('\\');
       this.currentPath = parent ? parent + '\\' : '';
@@ -137,16 +137,6 @@ export class viewerComponent implements OnChanges {
       this.currentPath = parent ? parent + '/' : '/';
     }
 
-    // // normaliza (remove barras finais) e tira a última parte
-    // const normalized = this.currentPath.replace(/\\+$/, '');
-    // const parts = normalized.split('\\');
-    // parts.pop(); // remove a última pasta
-
-    // // monta o novo path (adiciona backslash no fim se houver algo)
-    // const parent = parts.join('\\');
-    // this.currentPath = parent ? parent + '\\' : '';
-
-    // recarrega a pasta pai
     this.loadFiles(this.currentPath, this.agent_adress);
   }
 
@@ -168,7 +158,6 @@ export class viewerComponent implements OnChanges {
   }
 
   loadFiles(path: string, agentAdress: string) {
-    // aqui você passa o PDV para o backend se quiser
     this.isLoading = true;
     this.viewerService.getFileInfo(path, agentAdress).subscribe({
       next: (data: FileInfo) => {
@@ -189,10 +178,8 @@ export class viewerComponent implements OnChanges {
     this.viewerService.openFile(path, agentAddress).subscribe({
       next: (res) => {
         if (res.status === "ok") {
-          // conteúdo do arquivo
           this.fileContent = res.content ?? '';
 
-          // abre o modal
           this.isLoading = false;
           this.editFile = true;
         } else {
@@ -210,10 +197,9 @@ export class viewerComponent implements OnChanges {
 
   saveFile(path: string, fileContent: string) {
     if (fileContent) {
+      this.editFile = true;
       console.log('salvando arquivo')
       this.viewerService.saveFile(path, fileContent, this.agent_adress).subscribe({
-
-
       });
     }
     this.editFile = false;
@@ -225,21 +211,18 @@ export class viewerComponent implements OnChanges {
       return;
     }
 
-    // abre modal
     this.renamingFile = true;
 
-    // preenche input com nome atual
     this.renameFileName = this.selectedFile.name;
   }
 
   confirmRename() {
     if (!this.renameFileName || !this.selectedFile) return;
 
-    // chama o serviço para renomear no backend/agent
     this.viewerService.renameFile(this.selectedFile.path, this.renameFileName, this.agent_adress).subscribe({
       next: res => {
         console.log("Renomeado com sucesso:", res);
-        this.loadFiles(this.currentPath, this.agent_adress); // atualiza lista
+        this.loadFiles(this.currentPath, this.agent_adress);
       },
       error: err => console.error("Erro ao renomear:", err)
     });
@@ -284,7 +267,7 @@ export class viewerComponent implements OnChanges {
     this.viewerService.downloadFile(path, url, agentAddress).subscribe({
       next: res => {
         console.log("Download concluído:", res);
-        this.loadFiles(this.currentPath, agentAddress); // atualiza a lista de arquivos depois do download
+        this.loadFiles(this.currentPath, agentAddress);
         this.isLoading = false;
       },
       error: err => {
@@ -315,16 +298,14 @@ export class viewerComponent implements OnChanges {
     const name = this.copiedFile.name; //nome do arquivo
     const path = this.currentPath; // pasta onde vai colar
 
-    // Chama o serviço que vai mandar para o backend copiar
     this.viewerService.copyFile(path, name, oldPath, this.agent_adress).subscribe({
       next: res => {
         console.log("Arquivo colado com sucesso:", res);
-        this.loadFiles(this.currentPath, this.agent_adress); // atualiza a lista
+        this.loadFiles(this.currentPath, this.agent_adress);
       },
       error: err => console.error("Erro ao colar arquivo:", err)
     });
 
-    // Limpa o clipboard se quiser
     this.copiedFile = null;
   }
 
@@ -340,7 +321,7 @@ export class viewerComponent implements OnChanges {
       return "https://img.icons8.com/?size=100&id=cUTCZjnuqrad&format=png&color=000000";
     } else {
       // qualquer outro tipo de arquivo
-      return "https://img.icons8.com/?size=100&id=placeholder&format=png&color=000000";
+      return "https://img.icons8.com/?size=100&id=77615&format=png&color=000000";
     }
   }
 
