@@ -1,18 +1,24 @@
 <div class="viewer-container">
+
     <div>
         <app-toolbar [currentPath]="currentPath" (back)="handleBack()" (createFolder)="onCreateFolder()"
-            (delete)="onDeleteSelected()">
+            (delete)="onDeleteSelected()" (send)="toSend()" (reload)="onReload(this.agent_adress)" (copy)="onCopy()"
+            (paste)="onPaste()" (rename)="onRename()">
         </app-toolbar>
     </div>
     <div class="pastas-container">
+        <!-- Spinner de carregamento -->
+        <div class="spinner-backdrop" *ngIf="isLoading">
+            <div class="spinner"></div>
+        </div>
         <!-- Modal Criar Pasta -->
         <div class="modal-backdrop" *ngIf="creatingFolder">
             <div class="modal">
                 <h3>Criar nova pasta</h3>
                 <input type="text" [(ngModel)]="newFolderName" placeholder="Nome da nova pasta" />
                 <div class="modal-actions">
-                    <button (click)="confirmCreateFolder()">Criar</button>
                     <button (click)="cancelCreateFolder()">Cancelar</button>
+                    <button (click)="confirmCreateFolder()">Criar</button>
                 </div>
             </div>
         </div>
@@ -21,11 +27,32 @@
                 <h3>Confirmar exclusão</h3>
                 <p>Deseja realmente deletar "{{ selectedFile?.name }}"?</p>
                 <div class="modal-actions">
-                    <button (click)="confirmDelete()">Sim</button>
                     <button (click)="cancelDelete()">Não</button>
+                    <button (click)="confirmDelete()">Sim</button>
                 </div>
             </div>
         </div>
+        <div class="modal-backdrop" *ngIf="renamingFile">
+            <div class="modal">
+                <h3>Renomear "{{ selectedFile?.name }}"</h3>
+                <input type="text" [(ngModel)]="renameFileName" placeholder="Novo nome" />
+                <div class="modal-actions">
+                    <button (click)="cancelRename()">Cancelar</button>
+                    <button (click)="confirmRename()">Renomear</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop-edit" *ngIf="editFile">
+            <div class="modal">
+                <h3>{{ selectedFile?.path }}</h3>
+                <textarea [(ngModel)]="fileContent" rows="20" cols="100"></textarea>
+                <div class="modal-actions">
+                    <button (click)="editFile = false">Fechar</button>
+                    <button (click)="saveFile(selectedFile!.path, fileContent)">Salvar</button>
+                </div>
+            </div>
+        </div>
+        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
 
         <div class="pasta-card" *ngFor="let file of files" [title]="file.name" (click)="onSelect(file)"
             (dblclick)="onOpen(file)" [class.selected]="selectedFile === file">

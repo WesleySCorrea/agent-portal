@@ -1,9 +1,10 @@
+import { Pdv } from '../../models/Rede';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Entrie, FileInfo } from '../../models/FileInto';
-import { viewerService } from '../../services/viewerService';
+import { viewerService } from '../../services/viewer/viewerService';
 import { ToolbarComponent } from "../toolbar-component/toolbar-component";
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-viewer',
@@ -13,22 +14,38 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './viewerComponent.scss'
 })
 export class viewerComponent implements OnChanges {
-  @Input() pdvNome?: string;
+  @Input() pdvSelecionado: Pdv | undefined;
   files: Entrie[] = [];
   fileInfo?: FileInfo;
   currentPath: string = ""
   selectedFile: Entrie | null = null;
+  copiedFile: Entrie | null = null;
   creatingFolder: boolean = false;
+  renamingFile: boolean = false;
   confirmingDelete: boolean = false;
+  editFile: boolean = false;
+  isLoading = false;
   newFolderName: string = '';
+  renameFileName: string = '';
+  fileContent: string = '';
+  agent_adress: string = '';
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(private viewerService: viewerService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['pdvNome'] && this.pdvNome) {
-      console.log('PDV selecionado:', this.pdvNome);
-      this.loadFiles('');
+    if (changes['pdvSelecionado'] && this.pdvSelecionado) {
+      console.log('PDV selecionado:', this.pdvSelecionado);
+      this.currentPath = "";
+      this.newFolderName = '';
+      this.renameFileName = '';
+      this.agent_adress = this.pdvSelecionado.agent_adress;
+      this.loadFiles('', this.agent_adress);
     }
+  }
+
+  onReload(agentAddress: string) {
+    this.loadFiles(this.currentPath, agentAddress);
   }
 
   onCreateFolder() {
@@ -37,12 +54,6 @@ export class viewerComponent implements OnChanges {
   }
 
   confirmCreateFolder() {
-    if (this.isRootPath(this.currentPath)) {
-      console.warn("Não é permitido criar pasta na raiz do drive");
-      alert("Você não pode criar pastas diretamente na raiz."); // opcional
-      return;
-    }
-
     if (!this.newFolderName.trim()) {
       console.warn("Nome da pasta não pode ser vazio");
       return;
@@ -52,11 +63,11 @@ export class viewerComponent implements OnChanges {
 
     // Aqui você chama seu service
     this.viewerService.createFolder(
-      this.currentPath, this.newFolderName
+      this.currentPath, this.newFolderName, this.agent_adress
     ).subscribe({
       next: () => {
         this.creatingFolder = false;
-        this.loadFiles(this.currentPath);
+        this.loadFiles(this.currentPath, this.agent_adress);
       },
       error: (err) => console.error(err)
     });
@@ -84,14 +95,12 @@ export class viewerComponent implements OnChanges {
   confirmDelete() {
     if (!this.selectedFile) return;
     const path = this.selectedFile.path;
-
     console.log(path)
-
     // Chama o serviço para deletar
-    this.viewerService.deleteFile(path, this.selectedFile.is_dir).subscribe({
+    this.viewerService.deleteFile(path, this.selectedFile.is_dir, this.agent_adress).subscribe({
       next: () => {
         console.log("Item deletado:", this.selectedFile?.name);
-        this.loadFiles(this.currentPath);
+        this.loadFiles(this.currentPath, this.agent_adress);
         this.selectedFile = null;
         this.confirmingDelete = false;
       },
@@ -104,53 +113,226 @@ export class viewerComponent implements OnChanges {
   }
 
   handleBack() {
-    if (this.isRootPath(this.currentPath)) { //VERIFICANDO SE MEU PATH ESTÁ NA RAIZ
+    if (this.isRootPath(this.currentPath)) { //VERIFICANDO SE MEU PATH ESTÁ NA RAIZ DO WINDOWS
       return;
     }
+    this.selectedFile = null;
 
-    // normaliza (remove barras finais) e tira a última parte
-    const normalized = this.currentPath.replace(/\\+$/, '');
-    const parts = normalized.split('\\');
-    parts.pop(); // remove a última pasta
+    // Define separador baseado no sistema
+    if (this.pdvSelecionado?.sistema === 'WINDOWS') {
 
-    // monta o novo path (adiciona backslash no fim se houver algo)
-    const parent = parts.join('\\');
-    this.currentPath = parent ? parent + '\\' : '';
+      // normaliza (remove barras finais) e tira a última parte
+      const normalized = this.currentPath.replace(/\\+$/, '');
+      const parts = normalized.split('\\');
+      parts.pop(); // remove a última pasta
+
+      const parent = parts.join('\\');
+      this.currentPath = parent ? parent + '\\' : '';
+    } else if (this.pdvSelecionado?.sistema === 'LINUX') {
+
+      const normalized = this.currentPath.replace(/\/+$/, '');
+      const parts = normalized.split('/');
+      parts.pop();
+      const parent = parts.join('/');
+      this.currentPath = parent ? parent + '/' : '/';
+    }
+
+    // // normaliza (remove barras finais) e tira a última parte
+    // const normalized = this.currentPath.replace(/\\+$/, '');
+    // const parts = normalized.split('\\');
+    // parts.pop(); // remove a última pasta
+
+    // // monta o novo path (adiciona backslash no fim se houver algo)
+    // const parent = parts.join('\\');
+    // this.currentPath = parent ? parent + '\\' : '';
 
     // recarrega a pasta pai
-    this.loadFiles(this.currentPath);
+    this.loadFiles(this.currentPath, this.agent_adress);
   }
 
   onSelect(file: Entrie) {
     this.selectedFile = file;
     console.log("Selecionado:", file.name);
+    console.log(this.selectedFile)
   }
 
   onOpen(file: Entrie) {
     if (file.is_dir) {
-      this.loadFiles(file.path);
+      this.loadFiles(file.path, this.agent_adress);
+    } else if (file.ext = '.txt') {
+      console.log('Abrindo arquivo txt');
+      this.openFile(file.path, this.agent_adress);
     } else {
       console.log("Arquivo aberto:", file.name);
     }
   }
 
-  loadFiles(path: string) {
+  loadFiles(path: string, agentAdress: string) {
     // aqui você passa o PDV para o backend se quiser
-    this.viewerService.getFileInfo(path).subscribe({
+    this.isLoading = true;
+    this.viewerService.getFileInfo(path, agentAdress).subscribe({
       next: (data: FileInfo) => {
         this.fileInfo = data;
         this.files = data.entries;
         this.currentPath = this.fileInfo.path;
+        this.isLoading = false;
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err)
+        this.isLoading = false;
+      }
     });
   }
 
+  openFile(path: string, agentAddress: string) {
+    this.isLoading = true;
+    this.viewerService.openFile(path, agentAddress).subscribe({
+      next: (res) => {
+        if (res.status === "ok") {
+          // conteúdo do arquivo
+          this.fileContent = res.content ?? '';
+
+          // abre o modal
+          this.isLoading = false;
+          this.editFile = true;
+        } else {
+          this.isLoading = false;
+          alert("Erro ao abrir arquivo: " + res.message);
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error("Erro na request", err);
+        alert("Não foi possível abrir o arquivo.");
+      }
+    });
+  }
+
+  saveFile(path: string, fileContent: string) {
+    if (fileContent) {
+      console.log('salvando arquivo')
+      this.viewerService.saveFile(path, fileContent, this.agent_adress).subscribe({
+
+
+      });
+    }
+    this.editFile = false;
+  }
+
+  onRename() {
+    if (!this.selectedFile) {
+      console.warn("Nenhum arquivo selecionado para renomear");
+      return;
+    }
+
+    // abre modal
+    this.renamingFile = true;
+
+    // preenche input com nome atual
+    this.renameFileName = this.selectedFile.name;
+  }
+
+  confirmRename() {
+    if (!this.renameFileName || !this.selectedFile) return;
+
+    // chama o serviço para renomear no backend/agent
+    this.viewerService.renameFile(this.selectedFile.path, this.renameFileName, this.agent_adress).subscribe({
+      next: res => {
+        console.log("Renomeado com sucesso:", res);
+        this.loadFiles(this.currentPath, this.agent_adress); // atualiza lista
+      },
+      error: err => console.error("Erro ao renomear:", err)
+    });
+
+    this.renamingFile = false;
+    this.renameFileName = '';
+  }
+
+  cancelRename() {
+    this.renamingFile = false;
+    this.renameFileName = '';
+  }
+
+  toSend() {
+    this.fileInput.nativeElement.value = '';
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: Event) {
+
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      console.log("Arquivo selecionado:", file);
+
+      this.viewerService.uploadFile(file).subscribe({
+        next: (url: string) => {
+          console.log("Upload concluído:", url);
+
+          console.log("Agent Address:", this.agent_adress);
+          this.downloadFile(url, this.agent_adress);
+        },
+        error: err => console.error("Erro no upload:", err)
+      });
+    }
+  }
+
+  downloadFile(url: string, agentAddress: string) {
+    this.isLoading = true;
+    const path = this.currentPath;
+
+    this.viewerService.downloadFile(path, url, agentAddress).subscribe({
+      next: res => {
+        console.log("Download concluído:", res);
+        this.loadFiles(this.currentPath, agentAddress); // atualiza a lista de arquivos depois do download
+        this.isLoading = false;
+      },
+      error: err => {
+        console.error("Erro no download:", err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onCopy() {
+    if (!this.selectedFile) {
+      console.warn("Nenhum arquivo ou pasta selecionada");
+      return;
+    }
+
+    this.copiedFile = this.selectedFile;
+
+    console.log("Copiado:", this.copiedFile);
+  }
+
+  onPaste() {
+    if (!this.copiedFile) {
+      console.warn("Nenhum arquivo copiado");
+      return;
+    }
+
+    const oldPath = this.copiedFile.path;
+    const name = this.copiedFile.name; //nome do arquivo
+    const path = this.currentPath; // pasta onde vai colar
+
+    // Chama o serviço que vai mandar para o backend copiar
+    this.viewerService.copyFile(path, name, oldPath, this.agent_adress).subscribe({
+      next: res => {
+        console.log("Arquivo colado com sucesso:", res);
+        this.loadFiles(this.currentPath, this.agent_adress); // atualiza a lista
+      },
+      error: err => console.error("Erro ao colar arquivo:", err)
+    });
+
+    // Limpa o clipboard se quiser
+    this.copiedFile = null;
+  }
+
   getFileIcon(file: Entrie): string {
-    if (file.is_dir || file.ext === "") {
+    if (file.is_dir) {
       // pasta
       return "https://img.icons8.com/?size=100&id=WWogVNJDSfZ5&format=png&color=000000";
-    } else if (file.ext === ".txt") {
+    } else if (file.ext === ".txt" || (file.ext === "")) {
       // txt
       return "https://img.icons8.com/?size=100&id=2290&format=png&color=000000";
     } else if (file.ext === ".dll") {

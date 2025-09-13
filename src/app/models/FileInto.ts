@@ -5,6 +5,9 @@ export interface FileInfo {
     command: string,
     path: string,
     entries: Entrie[],
+    content?: string,
+    status?: string,
+    message?: string,
 }
 
 export interface Entrie {

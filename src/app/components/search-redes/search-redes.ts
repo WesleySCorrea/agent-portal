@@ -1,18 +1,9 @@
-import { CommonModule } from '@angular/common';
+import { Page } from '../../models/Page';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Mercado, Pdv, Rede } from '../../models/Rede';
 import { Component, EventEmitter, Output } from '@angular/core';
-
-interface Pdv {
-  nome: string;
-}
-interface Mercado {
-  nome: string;
-  pdvs: Pdv[];
-}
-interface Rede {
-  nome: string;
-  mercados: Mercado[];
-}
+import { SearchService } from '../../services/search/search-service';
 
 @Component({
   selector: 'app-search-redes',
@@ -23,19 +14,28 @@ interface Rede {
 })
 export class SearchRedes {
 
-  @Output() pdvSelecionadoChange = new EventEmitter<string>(); // envia o nome ou id do PDV
+  @Output() pdvSelecionadoChange = new EventEmitter<Pdv>();
 
   buscaRede: string = '';
   redeSelecionada: Rede | null = null;
   mercadoSelecionado: Mercado | null = null;
   pdvSelecionado: Pdv | null = null;
-  redes: Rede[] = [
-    { nome: 'Rede 1', mercados: [{ nome: 'Mercado A', pdvs: [{ nome: 'PDV 1' }, { nome: 'PDV 2' }] }] },
-    { nome: 'Rede 2', mercados: [{ nome: 'Mercado B', pdvs: [{ nome: 'PDV 3' }] }] }
-  ];
+  redes: Rede[] = [];
+
+  constructor(private searchService: SearchService) { }
 
   buscarRede() {
-    console.log('Buscando rede:', this.buscaRede);
+    if (!this.buscaRede) return;
+
+    // chama o backend
+    this.searchService.getRedesByName(this.buscaRede)
+      .subscribe({
+        next: (res: Page<Rede>) => {
+          console.log('Resposta do backend:', res);
+          this.redes = res.content;
+        },
+        error: (err) => console.error('Erro ao buscar redes:', err)
+      });
   }
 
   selecionarRede(rede: any) {
@@ -61,6 +61,6 @@ export class SearchRedes {
 
   selecionarPdv(pdv: Pdv) {
     this.pdvSelecionado = pdv;
-    this.pdvSelecionadoChange.emit(pdv.nome);
+    this.pdvSelecionadoChange.emit(pdv);
   }
 }

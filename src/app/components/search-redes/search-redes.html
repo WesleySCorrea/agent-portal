@@ -12,18 +12,18 @@
     <div class="lista-redes">
         <div *ngFor="let rede of redes" class="rede-item">
             <div (click)="selecionarRede(rede)">
-                {{ rede.nome }}
+                {{ rede.rede }}
             </div>
 
             <div *ngIf="redeSelecionada === rede" class="mercados">
                 <div *ngFor="let mercado of rede.mercados" class="mercado-item">
                     <div class="mercado-nome" (click)="selecionarMercado(mercado)">
-                        {{ mercado.nome }}
+                        {{ mercado.mercado }}
                     </div>
 
                     <div *ngIf="mercadoSelecionado === mercado" class="pdvs">
                         <div *ngFor="let pdv of mercado.pdvs" (click)="selecionarPdv(pdv)" style="cursor: pointer;">
-                            {{ pdv.nome }}
+                            {{ pdv.pdv_name }}
                         </div>
                     </div>
                 </div>

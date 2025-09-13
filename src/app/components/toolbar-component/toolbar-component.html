@@ -41,5 +41,19 @@
                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
         </svg>
     </button>
+    <!-- Renomear -->
+    <button (click)="onRename()">
+        <img src="https://img.icons8.com/?size=100&id=1879&format=png&color=000000" alt="Reload" width="20" height="20">
+    </button>
+    <!-- Enviar -->
+    <button (click)="toSend()">
+        <img src="https://img.icons8.com/?size=100&id=87586&format=png&color=000000" alt="Reload" width="20"
+            height="20">
+    </button>
+    <!-- Reload -->
+    <button (click)="onReload()">
+        <img src="https://img.icons8.com/?size=100&id=54312&format=png&color=000000" alt="Reload" width="20"
+            height="20">
+    </button>
     <input id="path-input" [value]="currentPath ?? ''" type="text" readonly>
 </div>

@@ -1,3 +1,4 @@
+import { Pdv } from '../../models/Rede';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchRedes } from "../../components/search-redes/search-redes";
@@ -11,5 +12,5 @@ import { viewerComponent } from '../../components/viewerComponent/viewerComponen
   styleUrl: './home.scss'
 })
 export class Home {
-  pdvSelecionado?: string;
+  pdvSelecionado?: Pdv;
 }

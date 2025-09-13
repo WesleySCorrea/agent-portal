@@ -16,6 +16,9 @@ export class ToolbarComponent {
   @Output() delete = new EventEmitter<void>();
   @Output() copy = new EventEmitter<void>();
   @Output() paste = new EventEmitter<void>();
+  @Output() rename = new EventEmitter<void>();
+  @Output() send = new EventEmitter<void>();
+  @Output() reload = new EventEmitter<void>();
 
   constructor() { }
 
@@ -41,6 +44,18 @@ export class ToolbarComponent {
 
   onPaste() {
     this.paste.emit();
+  }
+
+  onRename() {
+    this.rename.emit();
+  }
+
+  toSend() {
+    this.send.emit();
+  }
+
+  onReload() {
+    this.reload.emit();
   }
 
   isRoot(): boolean {
