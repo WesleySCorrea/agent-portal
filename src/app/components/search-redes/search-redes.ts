@@ -1,9 +1,10 @@
 import { Page } from '../../models/Page';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Mercado, Pdv, RedeDTO } from '../../models/RedeModel';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Pdv, RedeDTO } from '../../models/Rede';
+import { MercadoDTO } from '../../models/Mercado';
 import { SearchService } from '../../services/search/search-service';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search-redes',
@@ -18,7 +19,7 @@ export class SearchRedes {
 
   buscaRede: string = '';
   redeSelecionada: RedeDTO | null = null;
-  mercadoSelecionado: Mercado | null = null;
+  mercadoSelecionado: MercadoDTO | null = null;
   pdvSelecionado: Pdv | null = null;
   redes: RedeDTO[] = [];
 
@@ -38,7 +39,7 @@ export class SearchRedes {
       });
   }
 
-  selecionarRede(rede: any) {
+  selecionarRede(rede: RedeDTO) {
     if (this.redeSelecionada === rede) {
       this.redeSelecionada = null;
       this.mercadoSelecionado = null;
@@ -49,7 +50,7 @@ export class SearchRedes {
     }
   }
 
-  selecionarMercado(mercado: any) {
+  selecionarMercado(mercado: MercadoDTO) {
     if (this.mercadoSelecionado === mercado) {
       this.mercadoSelecionado = null;
       this.pdvSelecionado = null;

@@ -1,15 +1,28 @@
 <div class="mercado-container">
-    <form>
+    <form (ngSubmit)="onSubmit()" #redeForm="ngForm">
+
         <h2>Cadastrar Mercado</h2>
+
+        <!-- bloco do select separado -->
+        <div class="input-select-rede">
+            <select [(ngModel)]="selectedRede" name="selectedRede" required>
+                <option [ngValue]="null" disabled selected>Selecione a Rede</option>
+                <option *ngFor="let rede of redes" [ngValue]="rede">
+                    {{ rede.rede }}
+                </option>
+            </select>
+        </div>
+
         <div class="inputs">
             <input class="input-id" type="number" placeholder="ID" [value]="idMercado" readonly />
             <input class="input-nome" type="text" placeholder="Nome do Mercado" [(ngModel)]="nomeMercado"
                 name="nomeMercado" required />
             <input class="input-cnpj" type="text" placeholder="CNPJ do Mercado" [(ngModel)]="cnpjMercado"
-                name="cnpjMercado" required />
+                name="cnpjMercado" required (keypress)="onKeyPress($event)" />
         </div>
-        <div>
-            <button type="submit">Cadastrar</button>
+        <div class="div-button">
+            <button type="button" (click)="onClear()">Limpar</button>
+            <button type="submit" [disabled]="!redeForm.form.valid">Cadastrar</button>
         </div>
     </form>
 </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CreateRedeDTO, RedeDTO } from '../../models/RedeModel';
+import { allowOnlyNumbers } from '../../utils/validador';
+import { CreateRedeDTO, RedeDTO } from '../../models/Rede';
 import { RedeService } from '../../services/rede/rede-service';
 
 @Component({
@@ -43,10 +44,7 @@ export class Rede {
     this.cnpjRede = '';
   }
 
-  allowOnlyNumbers(event: KeyboardEvent) {
-    const char = String.fromCharCode(event.keyCode);
-    if (!/[0-9]/.test(char)) {
-      event.preventDefault();
-    }
+  onKeyPress(event: KeyboardEvent) {
+    allowOnlyNumbers(event);
   }
 }

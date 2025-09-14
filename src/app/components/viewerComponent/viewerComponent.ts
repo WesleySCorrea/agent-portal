@@ -1,4 +1,4 @@
-import { Pdv } from '../../models/RedeModel';
+import { Pdv } from '../../models/Rede';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Entrie, FileInfo } from '../../models/FileInto';

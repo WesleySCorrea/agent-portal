@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Page } from '../../models/Page';
 import { Injectable } from '@angular/core';
-import { RedeDTO } from '../../models/RedeModel';
+import { RedeDTO } from '../../models/Rede';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

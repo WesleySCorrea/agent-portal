@@ -6,7 +6,7 @@
             <input class="input-nome" type="text" placeholder="Nome da Rede" [(ngModel)]="nomeRede" name="nomeRede"
                 required />
             <input class="input-cnpj" type="text" placeholder="CNPJ da Rede" [(ngModel)]="cnpjRede" name="cnpjRede"
-                required (keypress)="allowOnlyNumbers($event)" />
+                required (keypress)="onKeyPress($event)" />
         </div>
         <div class="div-button">
             <button type="button" (click)="onClear()">Limpar</button>

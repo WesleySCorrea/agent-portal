@@ -10,16 +10,38 @@
 }
 
 form {
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 15px
+    gap: 15px;
+}
+
+form .div-button {
+    display: flex;
+    gap: 20px
+}
+
+.input-select-rede {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+.input-select-rede select {
+    height: 32px;
+    width: 250px;
+    border: 1px solid #DCDCDC;
+    border-radius: 4px;
+    padding: 0 5px;
 }
 
 .inputs {
     display: flex;
-    gap: 10px; // espaço entre os inputs
+    gap: 10px;
     margin-bottom: 15px;
     height: 32px;
     padding: 0 10px;
@@ -45,7 +67,7 @@ form {
 }
 
 button {
-    height: 32px; // mesmo tamanho do input
+    height: 32px;
     width: 100px;
     padding: 0 10px;
 }
