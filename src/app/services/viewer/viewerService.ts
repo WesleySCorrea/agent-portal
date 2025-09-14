@@ -7,71 +7,64 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class viewerService {
-  private baseUrl = 'http://localhost:8080/send/rpc';
+  private agentUrl = 'http://localhost:8080/api/agent'
 
   constructor(private http: HttpClient) { }
 
   getFileInfo(path: string, agentAddress: string): Observable<FileInfo> {
-    const comand = 'ls';
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, agentAddress }
+    return this.http.get<FileInfo>(`${this.agentUrl}/list`, {
+      params: { path, agentAddress }
     });
   }
 
   openFile(path: string, agentAddress: string): Observable<FileInfo> {
-    const comand = 'open';
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, agentAddress }
-    });
+    return this.http.post<FileInfo>(`${this.agentUrl}/open`,
+      { path, agentAddress }
+    );
   }
 
   saveFile(path: string, content: string, agentAddress: string): Observable<FileInfo> {
-    const comand = 'save';
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, content, agentAddress }
-    });
+    return this.http.post<FileInfo>(`${this.agentUrl}/save`,
+      { path, content, agentAddress }
+    );
   }
 
   createFolder(path: string, name: string, agentAddress: string): Observable<FileInfo> {
-    const comand = 'mkdir';
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, name, agentAddress }
-    });
+    return this.http.post<FileInfo>(`${this.agentUrl}/create`,
+      { path, name, agentAddress }
+    );
   }
 
   deleteFile(path: string, is_dir: boolean, agentAddress: string): Observable<FileInfo> {
-    const comand = 'rm'
     console.log(path)
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, agentAddress }
-    });
+    return this.http.post<FileInfo>(`${this.agentUrl}/delete`,
+      { path, agentAddress }
+    );
   }
 
   downloadFile(path: string, url: string, agentAddress: string): Observable<FileInfo> {
-    const comand = 'down';
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, url, agentAddress }
-    });
+    return this.http.post<FileInfo>(`${this.agentUrl}/download`,
+      { path, url, agentAddress }
+    );
   }
 
   uploadFile(file: File): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post(`${this.baseUrl}/upload`, formData, { responseType: 'text' });
+    return this.http.post(`${this.agentUrl}/upload`,
+      formData, { responseType: 'text' });
   }
 
   copyFile(path: string, name: string, oldPath: string, agentAddress: string): Observable<FileInfo> {
-    const comand = 'copy';
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, oldPath, agentAddress }
-    });
+    return this.http.post<FileInfo>(`${this.agentUrl}/copy`,
+      { path, oldPath, agentAddress }
+    );
   }
 
   renameFile(path: string, name: string, agentAddress: string): Observable<FileInfo> {
-    const comand = 'rename';
-    return this.http.get<FileInfo>(`${this.baseUrl}`, {
-      params: { path, comand, name, agentAddress }
-    });
+    return this.http.post<FileInfo>(`${this.agentUrl}/rename`,
+      { path, name, agentAddress }
+    );
   }
 }

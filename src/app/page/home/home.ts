@@ -1,4 +1,4 @@
-import { Pdv } from '../../models/Rede';
+import { Pdv } from '../../models/RedeModel';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchRedes } from "../../components/search-redes/search-redes";

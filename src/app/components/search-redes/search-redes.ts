@@ -1,7 +1,7 @@
 import { Page } from '../../models/Page';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Mercado, Pdv, Rede } from '../../models/Rede';
+import { Mercado, Pdv, RedeDTO } from '../../models/RedeModel';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchService } from '../../services/search/search-service';
 
@@ -17,10 +17,10 @@ export class SearchRedes {
   @Output() pdvSelecionadoChange = new EventEmitter<Pdv>();
 
   buscaRede: string = '';
-  redeSelecionada: Rede | null = null;
+  redeSelecionada: RedeDTO | null = null;
   mercadoSelecionado: Mercado | null = null;
   pdvSelecionado: Pdv | null = null;
-  redes: Rede[] = [];
+  redes: RedeDTO[] = [];
 
   constructor(private searchService: SearchService) { }
 
@@ -30,7 +30,7 @@ export class SearchRedes {
     // chama o backend
     this.searchService.getRedesByName(this.buscaRede)
       .subscribe({
-        next: (res: Page<Rede>) => {
+        next: (res: Page<RedeDTO>) => {
           console.log('Resposta do backend:', res);
           this.redes = res.content;
         },

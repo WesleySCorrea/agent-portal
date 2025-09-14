@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
-import { Rede } from '../../models/Rede';
 import { Page } from '../../models/Page';
 import { Injectable } from '@angular/core';
+import { RedeDTO } from '../../models/RedeModel';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -12,8 +12,8 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
-  getRedesByName(rede: string): Observable<Page<Rede>> {
+  getRedesByName(rede: string): Observable<Page<RedeDTO>> {
     const url = `${this.baseUrl}/rede/${rede}`;
-    return this.http.get<Page<Rede>>(url);
+    return this.http.get<Page<RedeDTO>>(url);
   }
 }

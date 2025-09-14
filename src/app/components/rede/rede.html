@@ -1,15 +1,16 @@
 <div class="rede-container">
-    <form>
+    <form (ngSubmit)="onSubmit()" #redeForm="ngForm">
         <h2>Cadastrar Rede</h2>
         <div class="inputs">
-            <input class="input-id" type="number" placeholder="ID" [value]="idRede" readonly />
+            <input class="input-id" type="number" placeholder="ID" [(ngModel)]="idRede" name="idRede" readonly />
             <input class="input-nome" type="text" placeholder="Nome da Rede" [(ngModel)]="nomeRede" name="nomeRede"
                 required />
             <input class="input-cnpj" type="text" placeholder="CNPJ da Rede" [(ngModel)]="cnpjRede" name="cnpjRede"
-                required />
+                required (keypress)="allowOnlyNumbers($event)" />
         </div>
-        <div>
-            <button type="submit">Cadastrar</button>
+        <div class="div-button">
+            <button type="button" (click)="onClear()">Limpar</button>
+            <button type="submit" [disabled]="!redeForm.form.valid">Cadastrar</button>
         </div>
     </form>
 </div>

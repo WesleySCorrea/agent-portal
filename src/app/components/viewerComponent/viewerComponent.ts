@@ -1,4 +1,4 @@
-import { Pdv } from '../../models/Rede';
+import { Pdv } from '../../models/RedeModel';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Entrie, FileInfo } from '../../models/FileInto';
@@ -177,7 +177,7 @@ export class viewerComponent implements OnChanges {
     this.isLoading = true;
     this.viewerService.openFile(path, agentAddress).subscribe({
       next: (res) => {
-        if (res.status === "ok") {
+        if (res.status === "SUCCESS") {
           this.fileContent = res.content ?? '';
 
           this.isLoading = false;
