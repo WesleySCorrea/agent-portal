@@ -1,6 +1,6 @@
 .pdv-container {
-    max-width: 900px;
-    width: 750px;
+    max-width: 1200px;
+    width: 800px;
     background-color: var(--color-background);
     padding: 20px;
     border-radius: 10px;
@@ -15,6 +15,28 @@ form {
     justify-content: center;
     align-items: center;
     gap: 15px
+}
+
+form .div-button {
+    display: flex;
+    gap: 20px
+}
+
+.input-select-rede {
+  gap: 10px;
+    width: 100%;
+    display: flex;
+    margin-left: 0px;
+    margin-bottom: 15px;
+}
+
+.input-select-rede select {
+    box-sizing: border-box;
+    height: 32px;
+    width: 250px;
+    border: 1px solid #DCDCDC;
+    border-radius: 4px;
+    padding: 0 5px;
 }
 
 .inputs {
@@ -39,8 +61,12 @@ form {
     width: 400px;
   }
 
-  .input-cnpj {
-    width: 170px;
+  .input-agent {
+    width: 160px;
+  }
+
+  .input-versao {
+    width: 60px;
   }
 }
 

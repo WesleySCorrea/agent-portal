@@ -16,7 +16,7 @@ import { MercadoService } from '../../services/mercado/mercado-service';
 export class Mercado implements OnInit {
   redes: RedeDTO[] = [];
   selectedRede: RedeDTO | null = null;
-  searchText: string = '';
+  // searchText: string = '';
   idMercado: number | null = null;
   nomeMercado: string = '';
   cnpjMercado: string = '';
@@ -60,12 +60,11 @@ export class Mercado implements OnInit {
 
   selectRede(redeDto: RedeDTO) {
     this.selectedRede = redeDto;
-    this.searchText = redeDto.rede;
   }
 
   onClear() {
     this.selectedRede = null;
-    this.searchText = '';
+    // this.searchText = '';
     this.idMercado = null;
     this.nomeMercado = '';
     this.cnpjMercado = '';

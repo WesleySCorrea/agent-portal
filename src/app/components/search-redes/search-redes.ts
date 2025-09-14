@@ -1,10 +1,11 @@
 import { Page } from '../../models/Page';
+import { PdvDTO } from '../../models/Pdv';
+import { RedeDTO } from '../../models/Rede';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Pdv, RedeDTO } from '../../models/Rede';
 import { MercadoDTO } from '../../models/Mercado';
-import { SearchService } from '../../services/search/search-service';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { SearchService } from '../../services/search/search-service';
 
 @Component({
   selector: 'app-search-redes',
@@ -15,12 +16,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SearchRedes {
 
-  @Output() pdvSelecionadoChange = new EventEmitter<Pdv>();
+  @Output() pdvSelecionadoChange = new EventEmitter<PdvDTO>();
 
   buscaRede: string = '';
   redeSelecionada: RedeDTO | null = null;
   mercadoSelecionado: MercadoDTO | null = null;
-  pdvSelecionado: Pdv | null = null;
+  pdvSelecionado: PdvDTO | null = null;
   redes: RedeDTO[] = [];
 
   constructor(private searchService: SearchService) { }
@@ -60,7 +61,7 @@ export class SearchRedes {
     }
   }
 
-  selecionarPdv(pdv: Pdv) {
+  selecionarPdv(pdv: PdvDTO) {
     this.pdvSelecionado = pdv;
     this.pdvSelecionadoChange.emit(pdv);
   }

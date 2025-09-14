@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Navbar {
 
-  usuario: string = 'Usuário';
+  usuario: string = 'Usuario';
 
   constructor(private router: Router) { }
 

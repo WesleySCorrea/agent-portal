@@ -1,5 +1,6 @@
-import { Pdv } from '../../models/Rede';
+
 import { Component } from '@angular/core';
+import { PdvDTO } from '../../models/Pdv';
 import { CommonModule } from '@angular/common';
 import { SearchRedes } from "../../components/search-redes/search-redes";
 import { viewerComponent } from '../../components/viewerComponent/viewerComponent';
@@ -12,5 +13,5 @@ import { viewerComponent } from '../../components/viewerComponent/viewerComponen
   styleUrl: './home.scss'
 })
 export class Home {
-  pdvSelecionado?: Pdv;
+  pdvSelecionado?: PdvDTO;
 }

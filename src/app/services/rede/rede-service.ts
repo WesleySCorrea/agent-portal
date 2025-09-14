@@ -16,6 +16,11 @@ export class RedeService {
     return this.http.get<RedeDTO[]>(url);
   }
 
+  loadRedesWithMercado(): Observable<RedeDTO[]> {
+    const url = `${this.baseUrl}/rede/mercado`;
+    return this.http.get<RedeDTO[]>(url);
+  }
+
   createRede(rede: CreateRedeDTO): Observable<RedeDTO> {
     const url = `${this.baseUrl}/rede`;
     return this.http.post<RedeDTO>(url, rede);

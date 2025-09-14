@@ -1,15 +1,43 @@
 <div class="pdv-container">
-    <form>
+    <form (ngSubmit)="onSubmit()" #redeForm="ngForm">
         <h2>Cadastrar PDV</h2>
+
+        <!-- bloco do select separado -->
+        <div class="input-select-rede">
+
+            <select [(ngModel)]="selectedRede" name="selectedRede" required (change)="onRedeChange()">
+                <option [ngValue]="null" disabled>Selecione a Rede</option>
+                <option *ngFor="let rede of redes" [ngValue]="rede">
+                    {{ rede.rede }}
+                </option>
+            </select>
+
+            <select [(ngModel)]="selectedMercado" name="selectedMercado" required>
+                <option [ngValue]="null" disabled selected>Selecione o Mercado</option>
+                <option *ngFor="let mercado of mercados" [ngValue]="mercado">
+                    {{ mercado.mercado }}
+                </option>
+            </select>
+
+            <select [(ngModel)]="sistema" name="sistema" required>
+                <option [ngValue]="null" disabled selected>Selecione o Sistema</option>
+                <option [ngValue]="'WINDOWS'">Windows</option>
+                <option [ngValue]="'LINUX'">Linux</option>
+            </select>
+        </div>
+
         <div class="inputs">
             <input class="input-id" type="number" placeholder="ID" [value]="idPdv" readonly />
             <input class="input-nome" type="text" placeholder="Apelido PDV" [(ngModel)]="apelidoPdv" name="apelidoPdv"
                 required />
-            <input class="input-cnpj" type="text" placeholder="Endereço PDV" [(ngModel)]="enderecoPdv"
+            <input class="input-agent" type="text" placeholder="Endereço do Agente" [(ngModel)]="agent_adress"
                 name="enderecoPdv" required />
+            <input class="input-versao" type="text" placeholder="Versão" [(ngModel)]="versao" name="enderecoPdv"
+                required />
         </div>
         <div>
-            <button type="submit">Cadastrar</button>
+            <button type="button" (click)="onClear()">Limpar</button>
+            <button type="submit" [disabled]="!redeForm.form.valid">Cadastrar</button>
         </div>
     </form>
 </div>

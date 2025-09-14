@@ -1,11 +1,11 @@
-import { Pdv } from "./Rede";
+import { PdvDTO } from "./Pdv";
 
 export interface MercadoDTO {
     id: number,
     mercado: string,
     cnpj: string,
     rede_id: number,
-    pdvs: Pdv[],
+    pdvs: PdvDTO[],
 }
 
 export interface CreateMercadoDTO {

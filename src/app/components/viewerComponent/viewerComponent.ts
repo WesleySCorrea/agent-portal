@@ -1,4 +1,4 @@
-import { Pdv } from '../../models/Rede';
+import { PdvDTO } from '../../models/Pdv';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Entrie, FileInfo } from '../../models/FileInto';
@@ -14,7 +14,7 @@ import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } fro
   styleUrl: './viewerComponent.scss'
 })
 export class viewerComponent implements OnChanges {
-  @Input() pdvSelecionado: Pdv | undefined;
+  @Input() pdvSelecionado: PdvDTO | undefined;
   files: Entrie[] = [];
   fileInfo?: FileInfo;
   currentPath: string = ""
@@ -167,7 +167,7 @@ export class viewerComponent implements OnChanges {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error(err)
+        alert("PDV ou Agent desativado.")
         this.isLoading = false;
       }
     });
