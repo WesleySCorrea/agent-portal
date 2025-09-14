@@ -1,0 +1,16 @@
+<div class="update-container">
+    <h3>PDVs Selecionados</h3>
+
+    <p *ngIf="pdvsSelecionados.length === 0">Nenhum PDV selecionado</p>
+
+    <ul *ngIf="pdvsSelecionados.length > 0">
+        <li *ngFor="let pdv of pdvsSelecionados" [title]="'PDV: ' + pdv.pdv_name +
+                 '\nAgent Address: ' + pdv.agent_adress +
+                 '\nSistema: ' + pdv.sistema +
+                 '\nVersão: ' + pdv.versao +
+                 '\nMercado ID: ' + pdv.mercado_id">
+            {{ pdv.pdv_name }}
+            <button (click)="removePdv(pdv)">Remover</button>
+        </li>
+    </ul>
+</div>

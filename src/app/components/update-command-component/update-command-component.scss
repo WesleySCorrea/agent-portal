@@ -1,0 +1,32 @@
+.update-container {
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  margin: 10px;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--color-background);
+  border: 3px solid var(--color-primary);
+  border-radius: 15px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-button {
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  width: 200px;
+  height: 150px;
+  border: none;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(90%);
+    transform: scale(1.05);
+  }
+}

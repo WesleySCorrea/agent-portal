@@ -29,14 +29,14 @@ export class SearchRedes {
   buscarRede() {
     if (!this.buscaRede) return;
 
-    // chama o backend
     this.searchService.getRedesByName(this.buscaRede)
       .subscribe({
         next: (res: Page<RedeDTO>) => {
-          console.log('Resposta do backend:', res);
           this.redes = res.content;
         },
-        error: (err) => console.error('Erro ao buscar redes:', err)
+        error: (err) => {
+          alert("Erro ao fazer a chamada no backend");
+        }
       });
   }
 

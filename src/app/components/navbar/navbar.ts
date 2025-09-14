@@ -25,6 +25,6 @@ export class Navbar {
     this.router.navigate(['/login']);
   }
   abrirConfiguracoes() {
-    console.log('Abrir configurações');
+    this.router.navigate(['/updates']);
   }
 }

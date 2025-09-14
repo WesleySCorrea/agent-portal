@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { FileInfo } from '../../models/FileInto';
 import { HttpClient } from '@angular/common/http';
+import { PdvDTO } from '../../models/Pdv';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,12 @@ export class viewerService {
   renameFile(path: string, name: string, agentAddress: string): Observable<FileInfo> {
     return this.http.post<FileInfo>(`${this.agentUrl}/rename`,
       { path, name, agentAddress }
+    );
+  }
+
+  upgradeListPdv(url: string, agent_addresses: string[]): Observable<unknown> {
+    return this.http.post<FileInfo>(`${this.agentUrl}/list-download`,
+      { url, agent_addresses }
     );
   }
 }

@@ -1,0 +1,14 @@
+<div class="update-container">
+    <div class="left-side">
+        <app-search-redes (pdvSelecionadoChange)="adicionarPdv($event)"></app-search-redes>
+    </div>
+    <div class="center">
+        <app-update-component [pdvsSelecionados]="pdvsSelecionados" #updateComp>
+        </app-update-component>
+    </div>
+
+    <div class="right-side">
+        <app-update-command-component (updateClicked)="updateComp.atualizarPdvs()">
+        </app-update-command-component>
+    </div>
+</div>
