@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.scss'
 })
 export class Navbar {
-
   usuario: string = 'Usuario';
 
   constructor(private router: Router) { }
@@ -17,14 +16,20 @@ export class Navbar {
   home() {
     this.router.navigate(['/home']);
   }
+
   cadastrar() {
     this.router.navigate(['/register']);;
   }
+
   sair() {
-    // Deslogar e reenviar para login
     this.router.navigate(['/login']);
   }
-  abrirConfiguracoes() {
-    this.router.navigate(['/updates']);
+
+  upgrades() {
+    this.router.navigate(['/upgrades']);
+  }
+
+  historico() {
+    this.router.navigate(['/historico']);
   }
 }
