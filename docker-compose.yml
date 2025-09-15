@@ -1,0 +1,8 @@
+services:
+  agent-frontend:
+    container_name: agent-frontend
+    build: .
+    ports:
+      - "4200:80"
+    environment:
+      API_BASE_URL: "agent-backend:8080/"

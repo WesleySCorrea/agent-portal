@@ -1,59 +1,120 @@
 # AgentPortal
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+Um projeto frontend construído com **Angular**. Este projeto serve como interface de usuário para o sistema AgentPortal.
 
-## Development server
+# 🐳 Guia de Execução do Frontend com Angular
 
-To start a local development server, run:
+Este documento explica como rodar o frontend do projeto utilizando Angular localmente.
+
+---
+
+## 1. Pré-requisitos
+
+Antes de iniciar, certifique-se de ter instalado:
+
+- [Node.js](https://nodejs.org/) (versão 20+)
+- [npm](https://www.npmjs.com/) (vem junto com Node.js)
+- [Angular CLI](https://angular.io/cli) (apenas para rodar local sem Docker)
+
+---
+
+## 2. Estrutura do Frontend
+
+O frontend está organizado seguindo o padrão Angular, com diretórios separados por responsabilidade:
+
+```text
+agent-portal
+│
+├─ src
+│  ├─ app
+│  │  ├─ components       # Componentes reutilizáveis da aplicação.
+│  │  ├─ models           # Interfaces do sistema.
+│  │  ├─ page             # Páginas da aplicação.
+│  │  ├─ services         # Serviços Angular.
+│  │  └─ utils            # Componentes utilizados em vários métodos.
+│  └─ assets              # Arquivos estáticos (imagens, ícones, etc.)
+│
+├─ dist                  # Build de produção (gerado pelo Angular)
+├─ package.json          # Dependências e scripts do npm
+└─ README.md             # Este arquivo
+```
+
+---
+
+## 3. Rodando localmente (sem Docker)
+
+### 3.1 Instalação das dependências
+
+No diretório raiz do projeto:
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+
+cd agent-portal
+
+npm install
+```
+
+### 3.2 Executando o servidor de desenvolvimento
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 3.3 Acesse a aplicação em:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```text
+http://localhost:4200/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- O Angular recarrega automaticamente quando você modifica os arquivos do código-fonte.
+
+---
+
+## 4. Build de Produção
+
+### 4.1 Para gerar os arquivos de produção do Angular:
 
 ```bash
-ng generate --help
+ng build --prod
 ```
 
-## Building
+### 4.2 O build será gerado em:
 
-To build the project run:
+```text
+dist/agent-portal/browser
+```
+
+---
+
+## 5. Rodando com Docker 🐳
+
+- Caso queira rodar o frontend dentro de um container:
+
+### 5.1 Build da imagem Docker
 
 ```bash
-ng build
+docker build -t agent-frontend-frontend .
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 5.2 Rodando com Docker Compose
 
 ```bash
-ng test
+docker compose up -d --build
 ```
 
-## Running end-to-end tests
+### 5.3Acesse a aplicação em:
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```text
+http://localhost:4200/
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 6. Observações
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Certifique-se que a porta 4200 não está em uso.
+
+- Para SPAs Angular, o Nginx ou servidor usado deve estar configurado com try_files $uri /index.html;.
+
+- Sempre que alterar o build do Angular ou o nginx.conf, é necessário rebuildar a imagem Docker.

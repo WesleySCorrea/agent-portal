@@ -2,7 +2,6 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { FileInfo } from '../../models/FileInto';
 import { HttpClient } from '@angular/common/http';
-import { PdvDTO } from '../../models/Pdv';
 
 @Injectable({
   providedIn: 'root'
