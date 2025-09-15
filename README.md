@@ -48,7 +48,7 @@ agent-portal
 No diretório raiz do projeto:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone git@github.com:WesleySCorrea/agent-portal.git
 
 cd agent-portal
 
