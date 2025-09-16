@@ -35,7 +35,7 @@
             <input class="input-versao" type="text" placeholder="Versão" [(ngModel)]="versao" name="enderecoPdv"
                 required />
         </div>
-        <div>
+        <div class="div-button">
             <button type="button" (click)="onClear()">Limpar</button>
             <button type="submit" [disabled]="!redeForm.form.valid">Cadastrar</button>
         </div>
